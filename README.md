@@ -37,7 +37,7 @@ Clean architecture separation:
 1. Even though pagination wasn’t clearly required, I felt it made sense to include it because the API can return a large dataset. Implementing pagination ensures better performance and a smoother user experience.
 
 ## Known Limitations :- 
-- On the first launch, only the first page is loaded automatically. From the second launch onward, pagination functions correctly and additional pages are fetched smoothly during scrolling.
+- ~~On the first launch, only the first page is loaded automatically. From the second launch onward, pagination functions correctly and additional pages are fetched smoothly during scrolling.~~ - Fixed
 
 
 

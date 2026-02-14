@@ -38,8 +38,15 @@ class AnimeRemoteMediator(
                 LoadType.APPEND -> {
                     val remoteKey = getRemoteKeyForLastItem(state, animeDatabase)
                     Log.d("RemoteKey", "load: ${state.pages.lastOrNull()} ${remoteKey}")
+                    /** Very Imp Comment :- Taken from Android Codelab on Paging 3!!
+                    If remoteKey is null, that means the refresh result is not in the database yet.
+                    We can return Success with endOfPaginationReached = false because Paging
+                    will call this method again if RemoteKeys becomes non-null.
+                    If remoteKeys is NOT NULL but its nextKey is null, that means we've reached
+                    the end of pagination for append.
+                     */
                     val nextKey = remoteKey?.nextKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return MediatorResult.Success(endOfPaginationReached = remoteKey != null)
                     nextKey
                 }
             }
