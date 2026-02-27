@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techjd.animeseries.domain.AnimeRepository
 import com.techjd.animeseries.domain.models.Anime
+import com.techjd.animeseries.presentation.navigation.DetailScreen
 import com.techjd.animeseries.utils.ConnectivityObserver
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +20,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 data class AnimeDetailUiState(
@@ -26,29 +29,34 @@ data class AnimeDetailUiState(
     val isOffline: Boolean = false
 )
 
-@HiltViewModel
-class AnimeDetailViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = AnimeDetailViewModel.Factory::class)
+class AnimeDetailViewModel @AssistedInject constructor(
     private val connectivityObserver: ConnectivityObserver,
     private val repository: AnimeRepository,
-    savedStateHandle: SavedStateHandle,
+    @Assisted navKey: DetailScreen
 ): ViewModel() {
 
-    val animeId: Int = savedStateHandle.get<Int>("animeId") ?: -1
+    @AssistedFactory
+    interface Factory {
+        fun create(navKey: DetailScreen) : AnimeDetailViewModel
+    }
 
     private val _uiState = MutableStateFlow(AnimeDetailUiState())
     val uiState: StateFlow<AnimeDetailUiState> = _uiState.asStateFlow()
 
     init {
-        if (animeId == -1) {
-            _uiState.value = AnimeDetailUiState(
-                anime = null,
-                isLoading = false,
-                error = "Invalid anime ID"
-            )
-        } else {
-            startObservingConnectivity()
-            observeAnimeDetails(animeId)
-            fetchAnimeCast(animeId)
+        navKey.animeId.let { animeId ->
+            if (animeId == -1) {
+                _uiState.value = AnimeDetailUiState(
+                    anime = null,
+                    isLoading = false,
+                    error = "Invalid anime ID"
+                )
+            } else {
+                startObservingConnectivity()
+                observeAnimeDetails(animeId)
+                fetchAnimeCast(animeId)
+            }
         }
     }
 

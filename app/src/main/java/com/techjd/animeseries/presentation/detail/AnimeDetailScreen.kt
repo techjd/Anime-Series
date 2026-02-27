@@ -52,7 +52,7 @@ import com.techjd.animeseries.presentation.components.YouTubeTrailerPlayer
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnimeDetailScreen(
-    viewModel: AnimeDetailViewModel = hiltViewModel<AnimeDetailViewModel>(),
+    viewModel: AnimeDetailViewModel,
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
