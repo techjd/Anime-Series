@@ -38,7 +38,6 @@ class AnimeRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
                 initialLoadSize = Constants.PAGE_SIZE,
-                enablePlaceholders = false,
                 prefetchDistance = 2,
             ),
             remoteMediator = AnimeRemoteMediator(
