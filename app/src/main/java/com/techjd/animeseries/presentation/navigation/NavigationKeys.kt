@@ -1,5 +1,10 @@
 package com.techjd.animeseries.presentation.navigation
 
-data object HomeScreen
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-data class DetailScreen(val animeId: Int)
+@Serializable
+data object HomeScreen : NavKey
+
+@Serializable
+data class DetailScreen(val animeId: Int) : NavKey

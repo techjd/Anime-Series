@@ -1,7 +1,5 @@
 package com.techjd.animeseries.presentation.detail
 
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techjd.animeseries.domain.AnimeRepository
